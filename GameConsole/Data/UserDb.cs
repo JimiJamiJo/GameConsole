@@ -24,25 +24,19 @@ namespace GameConsole.Data
 
         public static User Login(string username, string password)
         {
-            foreach (var user in users)
-            {
-                if (user.UserName == username && user.Password == password) { return user;  }
-            }
-
-            return null;
+            return users.FirstOrDefault(user => user.UserName == username && user.Password == password);
         }
 
         public static void Update(User u)
         {
-            foreach (var user in users)
-            {
-                if (user.UserName == u.UserName) 
+            User user = users.FirstOrDefault(x => x.UserName == u.UserName);
+                if (user != null) 
                 { 
                     u.UserName = user.UserName; 
                     u.Password = user.Password;
                     return;
                 }
-            }
+            
 
             throw new InvalidOperationException("no such user exists!");
         }

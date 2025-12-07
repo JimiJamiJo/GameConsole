@@ -1,4 +1,6 @@
 ﻿using GameConsole.Base;
+using GameConsole.Data;
+using GameConsole.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,10 @@ namespace GameConsole.Pages
 {
 	internal class RegisterScreen : Screen
 	{
+		private string name;
+		private string username;
+		private string password;
+		private User user;
 		public RegisterScreen() : base("Register Page")
 		{
 		}
@@ -16,7 +22,40 @@ namespace GameConsole.Pages
 		{
 			base.Show();
 			CenterText("Enter Your Desired Details");
-			Console.ReadKey();
-		}
+
+			Console.Write("Enter name: ");
+			this.name = Console.ReadLine();
+            Console.Write("Enter username: ");
+            this.username = Console.ReadLine();
+            Console.Write("Enter password: ");
+            this.password = Console.ReadLine();
+
+			user = UserDb.RegisterUser(name, username, password);
+			if (user != null)
+			{
+				Console.WriteLine("Succsesfull registerd!");
+			}
+			else
+			{
+				while (true)
+				{
+					Console.WriteLine("Error, pls try again-");
+
+					Console.Write("Enter name: ");
+					this.name = Console.ReadLine();
+					Console.Write("Enter username: ");
+					this.username = Console.ReadLine();
+					Console.Write("Enter password: ");
+					this.password = Console.ReadLine();
+
+                    user = UserDb.RegisterUser(name, username, password);
+                    if (user != null)
+                    {
+                        Console.WriteLine("Succsesfull registerd!");
+						break;
+                    }
+                }
+			}
+        }
 	}
 }
